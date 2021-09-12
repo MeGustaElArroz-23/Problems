@@ -27,13 +27,13 @@ void solve(){
     int intentos=50000000/(n*m);
     if (m==10000){
         vvi sol(n);
-        for (int i=0;i<5;i++){
-            intentos=(int) 25000000/(n*m);
+        for (int i=0;i<10;i++){
+            intentos=(int) 40000000/(n*m);
             vii parejas;
             for (int j=0;j<n;j++){
-                for (int k=0;k<2000;k++){
+                for (int k=0;k<1000;k++){
                     //cerr << k <<' '<< k+1000*i<<'\n';
-                    parejas.push_back(pii{j,v[j][k+2000*i]});
+                    parejas.push_back(pii{j,v[j][k+1000*i]});
                 }
             }
             while (intentos--){
@@ -111,5 +111,8 @@ void solve(){
 }
 
 signed main(){
+  ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
     solve();
 }
