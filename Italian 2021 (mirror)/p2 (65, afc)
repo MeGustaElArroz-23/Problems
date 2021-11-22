@@ -1,0 +1,77 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+//#define int long long
+#define vi vector<int>
+#define vvi vector<vi>
+#define pii pair<int,int>
+#define vii vector<pii>
+#define fi first
+#define se second
+#define pb push_back
+#define vb vector<bool>
+
+ifstream in("inp");
+ofstream out("out");
+
+#define cin in
+#define cout out
+
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+vvi goesup;
+vvi goesdown;
+
+vvi dp;
+
+int calc(int l, int r){
+	if (l==r) return 1;
+	if (dp[l][r]!=-1) return dp[l][r];
+
+	int res=1000000000;
+
+	for (int x:goesup[l]){
+		//cerr << "l,x=" << l << ',' << x << '\n'; 
+		if (x>(l+r)/2) break;
+		else res=min(res,calc(x+1,r)+1);
+	}
+
+	for (int i=goesdown[r].size()-1;i>=0;i--){
+		int x=goesdown[r][i];
+		//cerr << "r,x=" << r << ',' << x << '\n'; 
+		if (x<(l+r+1)/2) break;
+		else res=min(res,calc(l,x-1)+1);
+	}
+
+	dp[l][r]=res;
+	//cerr << l << ' ' << r << ' ' << res << '\n';
+	return res;
+}
+
+int piega(int n, string S){
+
+	vb v(n);
+	for (int i=0;i<n;i++) v[i]=(S[i]=='1');
+
+	goesup=vvi(n);
+	goesdown=vvi(n);
+	dp=vvi(n,vi(n,-1));
+
+	for (int center=0;center<n;center++){
+		int i=0;
+		while (center-i>=0 && center+i<n && (i==0 || (v[center-i] ^ v[center+i]))){
+			
+			goesup[center-i].push_back(center);
+			goesdown[center+i].push_back(center);
+
+			i++;
+		}
+	}
+	
+	return calc(0,n-1);
+}
